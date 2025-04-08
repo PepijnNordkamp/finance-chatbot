@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 
+// Vervang deze door jouw eigen WebApp/Proxy endpoint
 const WEBAPP_URL = 'https://finance-chatbot-backend.onrender.com/proxy';
 
 function App() {
   const [input, setInput] = useState('');
   const [status, setStatus] = useState('');
 
+  // Voorbeeld: "Op 7 april 12,90 uitgegeven aan OV"
   const parseInput = (text) => {
-    // Voorbeeldinvoer: "Op 7 april 12,90 uitgegeven aan OV"
     const match = text.match(/(\d{1,2}) (\w+) (\d+[,.]?\d*) (euro)? ?(uitgegeven|ontvangen)? aan (.+)/i);
     if (!match) return null;
 
@@ -61,14 +62,22 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Financiële Chatbot</h1>
-      <textarea
-        placeholder="Bijv. Op 7 april 12,90 uitgegeven aan OV"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Verstuur</button>
-      <p>{status}</p>
+      <div className="chat-container">
+        <div className="chat-header">
+          <h1>Financiële Chatbot</h1>
+        </div>
+        <div className="chat-body">
+          <textarea
+            placeholder="Bijv. Op 7 april 12,90 uitgegeven aan OV"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button onClick={handleSubmit}>Verstuur</button>
+        </div>
+        <div className="chat-status">
+          <p>{status}</p>
+        </div>
+      </div>
     </div>
   );
 }
