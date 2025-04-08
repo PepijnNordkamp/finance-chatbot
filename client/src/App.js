@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const WEBAPP_URL = 'https://your-backend.onrender.com/proxy';
+const WEBAPP_URL = 'https://finance-chatbot-backend.onrender.com/proxy';
 
 function App() {
   const [input, setInput] = useState('');
