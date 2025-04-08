@@ -4,7 +4,7 @@ import './App.css';
 const WEBAPP_URL = 'https://finance-chatbot-backend.onrender.com/proxy';
 
 function App() {
-  // Standaard datum: vandaag (yyyy-mm-dd)
+  // Zet de datum standaard op vandaag (yyyy-mm-dd)
   const today = new Date().toISOString().slice(0, 10);
   const [date, setDate] = useState(today);
   const [amount, setAmount] = useState('');
@@ -13,19 +13,17 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Basisvalidatie
+    // Controleer of bedrag en categorie geldig zijn
     if (!amount || isNaN(parseFloat(amount)) || !category) {
-      setStatus("Voer een geldig bedrag en categorie in.");
+      setStatus("Voer een geldig bedrag en een categorie in.");
       return;
     }
 
-    // Constructeer de data: type is standaard "Uitgave"
     const data = {
       datum: date,
       bedrag: parseFloat(amount),
       categorie: category,
-      type: "Uitgave",
+      type: "Uitgave",        // Alle invoer wordt als 'Uitgave' geregistreerd
       beschrijving: category
     };
 
@@ -39,10 +37,10 @@ function App() {
       });
       if (res.ok) {
         setStatus("Toegevoegd aan Google Sheet ✅");
-        // Optioneel: reset velden na verzenden
+        // Reset de velden na succesvolle verzending
         setAmount('');
         setCategory('');
-        setDate(today); // Herinstellen naar vandaag
+        setDate(today);
       } else {
         setStatus("Fout bij verzenden ❌");
       }
@@ -53,9 +51,12 @@ function App() {
 
   return (
     <div className="app">
-      <div className="form-container">
-        <h1>Financiële Chatbot</h1>
-        <form onSubmit={handleSubmit}>
+      <div className="card">
+        <div className="card-header">
+          <h1>Financiële Overzicht</h1>
+          <p>Voer je dagelijkse uitgaven in</p>
+        </div>
+        <form onSubmit={handleSubmit} className="card-form">
           <div className="form-group">
             <label htmlFor="date">Datum</label>
             <input
@@ -83,12 +84,12 @@ function App() {
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              placeholder="Bijv. OV"
+              placeholder="Bijv. OV, Boodschappen, enz."
             />
           </div>
           <button type="submit">Verstuur</button>
         </form>
-        <p className="status">{status}</p>
+        {status && <p className="status">{status}</p>}
       </div>
     </div>
   );
