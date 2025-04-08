@@ -10,7 +10,7 @@ function App() {
 
   const parseInput = (text) => {
     // Voorbeeldinvoer: "Op 7 april 12,90 uitgegeven aan OV"
-    const match = text.match(/(\d{1,2}) (\w+) (\d+[\.,]?\d*) (euro)? ?(uitgegeven|ontvangen)? aan (.+)/i);
+    const match = text.match(/(\d{1,2}) (\w+) (\d+[,\.]?\d*) (euro)? ?(uitgegeven|ontvangen)? aan (.+)/i);
     if (!match) return null;
 
     const day = match[1];
