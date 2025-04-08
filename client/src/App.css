@@ -1,38 +1,86 @@
-.App {
+/* Reset body margin/padding en stel een achtergrondkleur in */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F4F4F4;
+  font-family: 'Open Sans', sans-serif; /* of een andere font naar voorkeur */
+  color: #333;
+}
+
+/* De root van onze React-app, vult het scherm en centreert de container */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Volledige viewport hoogte */
+}
+
+/* De hoofdcontainer (chat-container) lijkt op een chatvenster */
+.chat-container {
+  background-color: #FFFFFF;
+  width: 90%;
+  max-width: 600px; /* Limiteer de breedte op grotere schermen */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* De titelbalk van onze chatbot */
+.chat-header {
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.chat-header h1 {
+  margin: 0;
+  font-size: 24px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* De body met textarea en knop */
+.chat-body {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Het tekstvlak voor de gebruiker */
+.chat-body textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical; /* Gebruiker kan het groter maken indien nodig */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: inherit; /* Gebruik het font van de body */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* De verstuurknop */
+.chat-body button {
+  align-self: flex-end;
+  background-color: #007BFF;
+  color: #FFF;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Button hover-effect */
+.chat-body button:hover {
+  background-color: #0056b3;
+}
+
+/* Status-bericht na het verzenden */
+.chat-status {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.chat-status p {
+  margin: 0;
+  font-weight: 600;
 }
