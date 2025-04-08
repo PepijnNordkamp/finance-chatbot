@@ -1,13 +1,16 @@
-/* Basisreset en achtergrond */
+/* Haal een moderne font op (Montserrat) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Open Sans', sans-serif; /* Of een ander modern sans-serif lettertype */
-  background-color: #f4f4f4;
-  color: #333;
+  font-family: 'Montserrat', sans-serif;
+  /* Subtiele gradient als achtergrond */
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #343a40;
 }
 
-/* Centraal de app positioneren */
+/* Centreren van de hele app */
 .app {
   display: flex;
   justify-content: center;
@@ -15,61 +18,91 @@ body {
   height: 100vh;
 }
 
-/* Styling voor de hoofdcontainer (het "chat-/formulierenvenster") */
-.form-container {
+/* Card (formulier) met schone, strakke styling */
+.card {
   background-color: #ffffff;
   width: 90%;
-  max-width: 400px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  padding: 20px;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: transform 0.3s ease;
 }
 
-/* Titelbalk */
-.form-container h1 {
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Header van de kaart */
+.card-header {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 24px;
 }
 
-/* Elk formulier-element */
+.card-header h1 {
+  font-size: 28px;
+  margin: 0;
+  color: #007BFF;
+}
+
+.card-header p {
+  font-size: 16px;
+  color: #6c757d;
+  margin-top: 5px;
+}
+
+/* Formulier opmaak */
+.card-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
 }
 
 .form-group label {
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .form-group input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px 14px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
   font-size: 16px;
+  outline: none;
+  transition: border 0.2s ease;
 }
 
-/* Verstuurknop */
+.form-group input:focus {
+  border-color: #007BFF;
+}
+
+/* Button styling */
 button {
-  width: 100%;
   background-color: #007BFF;
-  color: #FFF;
+  color: #ffffff;
   border: none;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 8px;
   font-size: 16px;
-  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-/* Statusmelding */
+/* Status melding onderaan */
 .status {
+  margin-top: 20px;
   text-align: center;
-  margin-top: 15px;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 16px;
 }
+
