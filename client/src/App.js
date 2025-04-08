@@ -1,82 +1,94 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// Vervang deze door jouw eigen WebApp/Proxy endpoint
 const WEBAPP_URL = 'https://finance-chatbot-backend.onrender.com/proxy';
 
 function App() {
-  const [input, setInput] = useState('');
+  // Standaard datum: vandaag (yyyy-mm-dd)
+  const today = new Date().toISOString().slice(0, 10);
+  const [date, setDate] = useState(today);
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
   const [status, setStatus] = useState('');
 
-  // Voorbeeld: "Op 7 april 12,90 uitgegeven aan OV"
-  const parseInput = (text) => {
-    const match = text.match(/(\d{1,2}) (\w+) (\d+[,.]?\d*) (euro)? ?(uitgegeven|ontvangen)? aan (.+)/i);
-    if (!match) return null;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const day = match[1];
-    const monthName = match[2].toLowerCase();
-    const amount = parseFloat(match[3].replace(',', '.'));
-    const type = match[5]?.toLowerCase() === 'ontvangen' ? 'Inkomen' : 'Uitgave';
-    const category = match[6];
-
-    const months = {
-      januari: '01', februari: '02', maart: '03', april: '04', mei: '05', juni: '06',
-      juli: '07', augustus: '08', september: '09', oktober: '10', november: '11', december: '12'
-    };
-    const month = months[monthName];
-    const year = new Date().getFullYear();
-    const date = `${year}-${month}-${day.padStart(2, '0')}`;
-
-    return {
-      datum: date,
-      bedrag: amount,
-      categorie: category,
-      type: type,
-      beschrijving: category
-    };
-  };
-
-  const handleSubmit = async () => {
-    const data = parseInput(input);
-    if (!data) {
-      setStatus('Kon invoer niet begrijpen.');
+    // Basisvalidatie
+    if (!amount || isNaN(parseFloat(amount)) || !category) {
+      setStatus("Voer een geldig bedrag en categorie in.");
       return;
     }
+
+    // Constructeer de data: type is standaard "Uitgave"
+    const data = {
+      datum: date,
+      bedrag: parseFloat(amount),
+      categorie: category,
+      type: "Uitgave",
+      beschrijving: category
+    };
+
     try {
       const res = await fetch(WEBAPP_URL, {
-        method: 'POST',
-        body: JSON.stringify(data),
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
       });
       if (res.ok) {
-        setStatus('Toegevoegd aan Google Sheet ✅');
+        setStatus("Toegevoegd aan Google Sheet ✅");
+        // Optioneel: reset velden na verzenden
+        setAmount('');
+        setCategory('');
+        setDate(today); // Herinstellen naar vandaag
       } else {
-        setStatus('Fout bij verzenden ❌');
+        setStatus("Fout bij verzenden ❌");
       }
-    } catch (err) {
-      setStatus('Netwerkfout ❌');
+    } catch (error) {
+      setStatus("Netwerkfout ❌");
     }
   };
 
   return (
     <div className="app">
-      <div className="chat-container">
-        <div className="chat-header">
-          <h1>Financiële Chatbot</h1>
-        </div>
-        <div className="chat-body">
-          <textarea
-            placeholder="Bijv. Op 7 april 12,90 uitgegeven aan OV"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button onClick={handleSubmit}>Verstuur</button>
-        </div>
-        <div className="chat-status">
-          <p>{status}</p>
-        </div>
+      <div className="form-container">
+        <h1>Financiële Chatbot</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="date">Datum</label>
+            <input
+              type="date"
+              id="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="amount">Bedrag (€)</label>
+            <input
+              type="number"
+              id="amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              step="0.01"
+              placeholder="Bijv. 12.90"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="category">Categorie</label>
+            <input
+              type="text"
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="Bijv. OV"
+            />
+          </div>
+          <button type="submit">Verstuur</button>
+        </form>
+        <p className="status">{status}</p>
       </div>
     </div>
   );
